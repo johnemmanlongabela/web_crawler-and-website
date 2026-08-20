@@ -2,7 +2,7 @@ import os
 from google import genai
 
 client = genai.Client(
-    api_key=("AQ.Ab8RN6KXqyUQE8ABXcJsgQFq2e8waWNvRIpK0ErZOC2ib48mOg")
+    api_key=("YOUR API KEY")
 )
 
 def summarize_article(article):
