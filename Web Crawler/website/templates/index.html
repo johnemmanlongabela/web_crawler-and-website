@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Government News Search System</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<!-- Navigation Bar -->
+<nav class="navbar">
+
+    <div class="logo">
+        Government News
+    </div>
+
+    <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="#news">News</a></li>
+        <li><a href="#stats">Statistics</a></li>
+        <li><a href="#about">About</a></li>
+    </ul>
+
+</nav>
+
+<div class="container">
+
+    <h1>Government News Search System</h1>
+
+    <!-- Statistics -->
+    <div id="stats" class="dashboard">
+
+    <div class="stat-card">
+        <h3>Total Articles</h3>
+        <h2>{{ total_articles }}</h2>
+    </div>
+
+    <div class="stat-card">
+        <h3>Today's News</h3>
+        <h2>{{ today_articles }}</h2>
+    </div>
+
+    <div class="stat-card">
+        <h3>News Sources</h3>
+        <h2>{{ total_sources }}</h2>
+    </div>
+
+</div>
+
+    <!-- Search -->
+    <form method="GET" class="search-box">
+
+        <input
+            type="text"
+            name="search"
+            placeholder="Search news..."
+            value="{{ search }}">
+
+        <input
+            type="date"
+            name="date"
+            value="{{ date }}">
+
+        <button type="submit">
+            Search
+        </button>
+
+    </form>
+
+    <!-- News -->
+    <div id="news">
+
+        {% if articles %}
+
+            {% for article in articles %}
+
+            <div class="news-card">
+
+                <h2>{{ article.title }}</h2>
+
+                <div class="meta">
+                    <strong>Source:</strong> {{ article.source }}
+                    |
+                    <strong>Date:</strong> {{ article.date }}
+                </div>
+
+                <p class="summary">
+                    {{ article.summary }}
+                </p>
+
+                <a
+                    class="read-btn"
+                    href="{{ article.link }}"
+                    target="_blank">
+
+                    Read Original Article →
+
+                </a>
+
+            </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="news-card">
+                <h2>No Articles Found</h2>
+                <p>Try another keyword or choose a different date.</p>
+            </div>
+
+        {% endif %}
+
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+
+        {% if page > 1 %}
+            <a href="/?search={{ search }}&date={{ date }}&page={{ page-1 }}">
+                ← Previous
+            </a>
+        {% endif %}
+
+        <span>
+            Page {{ page }} of {{ total_pages }}
+        </span>
+
+        {% if page < total_pages %}
+            <a href="/?search={{ search }}&date={{ date }}&page={{ page+1 }}">
+                Next →
+            </a>
+        {% endif %}
+
+    </div>
+
+    <!-- About -->
+    <section id="about" class="news-card">
+
+        <h2>About This Project</h2>
+
+        <p>
+            Government News Search System is a Flask web application that
+            collects Philippine government news using Scrapy, stores the
+            articles in SQLite, generates AI-powered summaries using Gemini AI,
+            and allows users to search and filter articles.
+        </p>
+
+    </section>
+
+</div>
+
+</body>
+</html>
